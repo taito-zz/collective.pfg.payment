@@ -1,0 +1,60 @@
+Utility
+=======
+
+Initial imports and defines
+----------------------------
+
+    >>> from zope.component import getUtility, provideUtility
+
+IAuthCode
+---------
+    >>> from collective.pfg.payment.interfaces import IAuthCode
+    >>> from collective.pfg.payment.utility.miscellaneous import AuthCode
+    >>> provideUtility(AuthCode(), provides=IAuthCode)
+    >>> ac = getUtility(IAuthCode)
+    >>> ac
+    <collective.pfg.payment.utility.miscellaneous.AuthCode object at ...>
+    >>> ac()
+    'd41d8cd98f00b204e9800998ecf8427e'
+    >>> ac('aaa')
+    '47bce5c74f589f4867dbd57e9ca9f808'
+
+    >>> CODE = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
+    >>> MERCHANT_ID = '13466'
+    >>> AMOUNT = '1'
+    >>> ORDER_NUMBER = '1'
+    >>> ORDER_DESCRIPTION = 'taito.horiuchi@gmail.com,t,t,1'
+    >>> CURRENCY = 'EUR'
+    >>> RETURN_ADDRESS = 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success'
+    >>> CANCEL_ADDRESS = 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled'
+    >>> NOTIFY_ADDRESS = 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify'
+    >>> TYPE = 'S1'
+    >>> CULTURE = 'fi_FI'
+    >>> MODE = '1'
+    >>> BLANK = ''
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update(CODE)
+    >>> m.update('|' + MERCHANT_ID)
+    >>> m.update('|' + AMOUNT)
+    >>> m.update('|' + ORDER_NUMBER)
+    >>> m.update('||' + ORDER_DESCRIPTION)
+    >>> m.update('|' + CURRENCY)
+    >>> m.update('|' + RETURN_ADDRESS)
+    >>> m.update('|' + CANCEL_ADDRESS)
+    >>> m.update('||' + NOTIFY_ADDRESS)
+    >>> m.update('|' + TYPE)
+    >>> m.update('|' + CULTURE)
+    >>> m.update('||' + MODE + '||')
+    >>> auth_code = m.hexdigest()
+    >>> AUTHCODE = auth_code.upper()
+    >>> AUTHCODE
+    '91A9848AC8BCDF6D5A8EBDB5A041B00E'
+    >>> keys = [MERCHANT_ID, AMOUNT, ORDER_NUMBER, BLANK, ORDER_DESCRIPTION, CURRENCY, RETURN_ADDRESS, RETURN_ADDRESS, CANCEL_ADDRESS, BLANK, NOTIFY_ADDRESS, TYPE, CULTURE, BLANK, MODE, BLANK, BLANK]
+    >>> keys
+    ['13466', '1', '1', '', 'taito.horiuchi@gmail.com,t,t,1', 'EUR', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled', '', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify', 'S1', 'fi_FI', '', '1', '', '']
+    >>> ac(code=CODE, separator='|', capital=True, keys)

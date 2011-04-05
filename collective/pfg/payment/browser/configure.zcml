@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.pfg.payment">
+
+
+  <browser:page
+    name="test-string"
+    for="*"
+    class=".miscellaneous.Miscellaneous"
+    permission="zope2.View"
+    attribute="test_string"
+    />
+
+</configure>
