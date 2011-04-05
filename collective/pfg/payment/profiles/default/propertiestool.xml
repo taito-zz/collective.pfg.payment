@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+ <object name="collective_pfg_payment_properties" meta_type="Plone Property Sheet">
+  <property name="title">Payment Properties</property>
+  <property name="fields" type="lines" />
+  <property name="mac" type="string"></property>
+  <property name="separator" type="string"></property>
+  <property name="capital" type="boolean">True</property>
+ </object>
+</object>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="collective.pfg.payment"
+        name="portal_controlpanel">
+ <configlet title="Payment Config" action_id="collective_pfg_payment_config" appId="collective.pfg.payment"
+    category="Products" condition_expr=""
+    icon_expr="string:$portal_url/maintenance_icon.png"
+    url_expr="string:${portal_url}/@@payment-config" visible="True"
+    i18n:attributes="title">
+  <permission>Manage portal</permission>
+ </configlet>
+</object>
