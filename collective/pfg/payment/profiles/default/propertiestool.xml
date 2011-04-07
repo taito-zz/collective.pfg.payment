@@ -6,5 +6,6 @@
   <property name="mac" type="string"></property>
   <property name="separator" type="string"></property>
   <property name="capital" type="boolean">True</property>
+<!--  <property name="session_fields" type="lines" />-->
  </object>
 </object>

@@ -7,21 +7,21 @@ from collective.pfg.payment.interfaces import (
     IAuthCode,
 )
 
+
 class AuthCode(object):
     implements(IAuthCode)
 
-    def __call__(self, code='', separator='', capital=False, keys):
-        st = code
+    def __call__(self, keys=None, code='', separator='', capital=False):
         try:
             m = hashlib.md5()
         except ImportError:
             m = md5.new()
-        m.update(code)
-        for key in keys:
-            scode = separator + key
-            st += scode
-            m.update(st)
+        scode = code
+        if keys is not None:
+            for key in keys:
+                scode += separator + key
+        m.update(scode)
         hexdigest = m.hexdigest()
         if capital is True:
-            hexdigest.upper()
+            return hexdigest.upper()
         return hexdigest

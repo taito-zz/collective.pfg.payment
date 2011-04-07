@@ -3,13 +3,60 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="collective.pfg.payment">
 
+  <browser:page
+    for="Products.CMFCore.interfaces.ISiteRoot"
+    name="payment-config"
+    class=".template.PaymentConfigView"
+    permission="cmf.ModifyPortalContent"
+    />
 
   <browser:page
-    name="test-string"
-    for="*"
-    class=".miscellaneous.Miscellaneous"
-    permission="zope2.View"
-    attribute="test_string"
+      name="payment-succeeded"
+      for="Products.PloneFormGen.interfaces.IPloneFormGenThanksPage"
+      class=".template.PaymentSucceededView"
+      permission="zope2.View"
+      />
+
+  <!-- Miscellaneous -->
+  <browser:page
+      name="auth-code"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="auth_code"
+      />
+
+<!--  <browser:page-->
+<!--      name="fields-to-session"-->
+<!--      for="*"-->
+<!--      class=".miscellaneous.Miscellaneous"-->
+<!--      permission="zope2.View"-->
+<!--      attribute="fields_to_session"-->
+<!--      />-->
+
+  <!-- For Testing -->
+  <browser:page
+      name="test-payment-interface"
+      for="*"
+      class=".payment_interface.TestPaymentInterfaceView"
+      permission="zope2.View"
+      attribute="test_payment_interface"
+      />
+
+  <!-- Viewlet Managers -->
+  <browser:viewletManager
+    name="collective.pfg.payment.config.manager"
+    provides="collective.pfg.payment.interfaces.IPaymentConfigViewletManager"
+    permission="cmf.ModifyPortalContent"
+    class="plone.app.viewletmanager.manager.OrderedViewletManager"
+    />
+
+  <!-- Viewlets -->
+  <browser:viewlet
+    name="collective.pfg.payment.config.properties"
+    manager="collective.pfg.payment.interfaces.IPaymentConfigViewletManager"
+    class=".viewlet.PaymentConfigPropertiesViewlet"
+    permission="cmf.ModifyPortalContent"
     />
 
 </configure>

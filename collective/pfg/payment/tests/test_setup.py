@@ -1,6 +1,10 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 from Products.CMFCore.utils import getToolByName
 from collective.pfg.payment.tests.base import TestCase
+
 
 class TestSetup(TestCase):
 
@@ -51,7 +55,6 @@ class TestSetup(TestCase):
         self.assertEquals('string', self.ccp.getPropertyType('separator'))
         self.assertEquals('boolean', self.ccp.getPropertyType('capital'))
 
-
     ## Uninstalling
     def test_uninstall(self):
         self.installer.uninstallProducts(['collective.pfg.payment'])
@@ -59,6 +62,7 @@ class TestSetup(TestCase):
         ids = [action.id for action in self.controlpanel.listActions()]
         self.failUnless('collective_pfg_payment_config' not in ids)
 #        self.failUnless(not hasattr(self.properties, 'collective_cart_properties'))
+
 
 def test_suite():
     suite = unittest.TestSuite()

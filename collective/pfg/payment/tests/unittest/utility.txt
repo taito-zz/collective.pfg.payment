@@ -14,10 +14,98 @@ IAuthCode
     >>> ac = getUtility(IAuthCode)
     >>> ac
     <collective.pfg.payment.utility.miscellaneous.AuthCode object at ...>
+
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update('a')
+    >>> m.hexdigest()
+    '0cc175b9c0f1b6a831c399e269772661'
+    >>> m.update('b')
+    >>> m.hexdigest()
+    '187ef4436122d1cc2f40dc2b92f0eba0'
+    >>> try:
+    ...     import hashlib
+    ...     n = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     n = md5.new()
+    >>> n.update('ab')
+    >>> n.hexdigest()
+    '187ef4436122d1cc2f40dc2b92f0eba0'
+    >>> m.hexdigest() == n.hexdigest()
+    True
+
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update('')
+    >>> m.hexdigest()
+    'd41d8cd98f00b204e9800998ecf8427e'
     >>> ac()
     'd41d8cd98f00b204e9800998ecf8427e'
-    >>> ac('aaa')
-    '47bce5c74f589f4867dbd57e9ca9f808'
+    >>> m.hexdigest() == ac()
+    True
+
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> keys = ['abcd']
+    >>> key = ''.join(keys)
+    >>> m.update(key)
+    >>> m.hexdigest() == ac(keys=keys)
+    True
+
+    >>> code = 'zyx'
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update(code)
+    >>> m.update(key)
+    >>> m.hexdigest() == ac(keys=keys, code=code)
+    True
+
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update(code)
+    >>> key = '|abcd'
+    >>> m.update(key)
+    >>> m.hexdigest()
+    '309f224ae1ef5cae5e862000f4dee952'
+
+    >>> key = '|efgh'
+    >>> m.update(key)
+    >>> keys = ['abcd', 'efgh']
+    >>> m.hexdigest() == ac(keys=keys, code=code, separator='|')
+    True
+    >>> upper = m.hexdigest().upper()
+    >>> upper
+    '649B4AA40D05F921EB81469379A1C35F'
+    >>> ac(keys=keys, code=code, separator='|', capital=True)
+    '649B4AA40D05F921EB81469379A1C35F'
+    >>> upper == ac(keys=keys, code=code, separator='|', capital=True)
+    True
+
+#    '649b4aa40d05f921eb81469379a1c35f'
+#    >>> keys = ['abcd', 'efgh']
+#    >>> ac(keys=keys, code=code, separator='|') == 
+#    True
 
     >>> CODE = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
     >>> MERCHANT_ID = '13466'
@@ -54,7 +142,44 @@ IAuthCode
     >>> AUTHCODE = auth_code.upper()
     >>> AUTHCODE
     '91A9848AC8BCDF6D5A8EBDB5A041B00E'
-    >>> keys = [MERCHANT_ID, AMOUNT, ORDER_NUMBER, BLANK, ORDER_DESCRIPTION, CURRENCY, RETURN_ADDRESS, RETURN_ADDRESS, CANCEL_ADDRESS, BLANK, NOTIFY_ADDRESS, TYPE, CULTURE, BLANK, MODE, BLANK, BLANK]
-    >>> keys
-    ['13466', '1', '1', '', 'taito.horiuchi@gmail.com,t,t,1', 'EUR', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled', '', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify', 'S1', 'fi_FI', '', '1', '', '']
-    >>> ac(code=CODE, separator='|', capital=True, keys)
+
+    >>> nstring = CODE + '|' + MERCHANT_ID + '|' + AMOUNT + '|' + ORDER_NUMBER + '||' + ORDER_DESCRIPTION + '|' + CURRENCY + '|' + RETURN_ADDRESS + '|' + CANCEL_ADDRESS + '||' + NOTIFY_ADDRESS + '|' + TYPE + '|' + CULTURE + '||' + MODE + '||'
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update(nstring)
+    >>> m.hexdigest().upper()
+    '91A9848AC8BCDF6D5A8EBDB5A041B00E'
+    >>> m.hexdigest().upper() == AUTHCODE
+    True
+
+    >>> nstring = CODE + '|' + MERCHANT_ID + '|' + AMOUNT + '|' + ORDER_NUMBER + '|' + BLANK + '|' + ORDER_DESCRIPTION + '|' + CURRENCY + '|' + RETURN_ADDRESS + '|' + CANCEL_ADDRESS + '|' + BLANK + '|' + NOTIFY_ADDRESS + '|' + TYPE + '|' + CULTURE + '|' + BLANK + '|' + MODE + '|' + BLANK + '|'
+    >>> try:
+    ...     import hashlib
+    ...     m = hashlib.md5()
+    ... except ImportError:
+    ...     import md5
+    ...     m = md5.new()
+    >>> m.update(nstring)
+    >>> m.hexdigest().upper()
+    '91A9848AC8BCDF6D5A8EBDB5A041B00E'
+    >>> m.hexdigest().upper() == AUTHCODE
+    True
+
+    >>> nstring
+    '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ|13466|1|1||taito.horiuchi@gmail.com,t,t,1|EUR|http://localhost:8080/Plone/form-folder/@@verkkomaksut-success|http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled||http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify|S1|fi_FI||1||'
+    >>> ns = nstring.split('|')[1:]
+    >>> ns
+    ['13466', '1', '1', '', 'taito.horiuchi@gmail.com,t,t,1', 'EUR', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled', '', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify', 'S1', 'fi_FI', '', '1', '', '']
+
+
+#    >>> keys = [MERCHANT_ID, AMOUNT, ORDER_NUMBER, BLANK, ORDER_DESCRIPTION, CURRENCY, RETURN_ADDRESS, RETURN_ADDRESS, CANCEL_ADDRESS, BLANK, NOTIFY_ADDRESS, TYPE, CULTURE, BLANK, MODE, BLANK, BLANK]
+#    >>> keys
+#    ['13466', '1', '1', '', 'taito.horiuchi@gmail.com,t,t,1', 'EUR', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled', '', 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify', 'S1', 'fi_FI', '', '1', '', '']
+
+    >>> keys = ns
+    >>> ac(keys, code=CODE, separator='|', capital=True) == AUTHCODE
+    True
