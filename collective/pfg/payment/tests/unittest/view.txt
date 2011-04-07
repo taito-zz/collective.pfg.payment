@@ -1,0 +1,54 @@
+View
+====
+
+Initial imports
+----------------
+    >>> from zope.component import provideAdapter
+    >>> from zope.interface import implements
+    >>> from zope.publisher.browser import TestRequest
+    >>> from mock import Mock
+
+BrowserViews
+============
+
+PaymentConfigView
+-----------------
+    >>> context = Mock()
+    >>> request = TestRequest()
+    >>> from collective.pfg.payment.browser.template import PaymentConfigView
+    >>> view = PaymentConfigView(context, request)
+    >>> view.template = Mock(return_value='template')
+    >>> view.template()
+    'template'
+    >>> view.__call__ = Mock(return_value=view.template())
+    >>> view.__call__()
+    'template'
+
+PaymentSucceededView
+------------------
+    >>> from collective.pfg.payment.browser.template import PaymentSucceededView
+    >>> view = PaymentSucceededView(context, request)
+    >>> view.template = Mock(return_value='template')
+    >>> view.template()
+    'template'
+    >>> view.__call__ = Mock(return_value=view.template())
+    >>> view.__call__()
+    'template'
+
+Viewlets
+--------
+    >>> from collective.pfg.payment.browser.viewlet import PaymentViewletBase
+    >>> viewlet = PaymentViewletBase(context, request, view)
+
+    >>> class getMultiAdapter(object):
+    ...     def __init__(self, **kwargs):
+    ...         for k, v in kwargs.items(): setattr(self, k, v)
+    ...     def current_page_url(self):
+    ...         return 'current_page_url'
+
+    >>> getMultiAdapter((context, request), name=u'plone_context_state') = Mock()
+    >>> @patch('zope.component.getMultiAdapter', getMultiAdapter())
+
+    >>> viewlet.current_url = Mock(return_value='current_url')
+    >>> viewlet.current_url
+    'current_url'

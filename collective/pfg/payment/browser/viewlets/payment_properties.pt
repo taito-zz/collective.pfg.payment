@@ -1,0 +1,50 @@
+<div id="payment-properties" i18n:domain="collective.pfg.payment">
+  <form method="post"
+        tal:attributes="action view/current_url">
+      <h2 i18n:translate="">Authentication Code Calculation</h2>
+      <p i18n:translate="">
+        Variables below will be used to calculate authentication code.
+      </p>
+      <div class="field">
+        <label i18n:translate="">MAC Code</label>
+        <div class="formHelp" i18n:translate="">
+          MAC Code provided by payment provider.
+        </div>
+        <div tal:replace="structure view/mac_field" />
+      </div>
+      <div class="field">
+        <label i18n:translate="">Fields</label>
+        <div class="formHelp" i18n:translate="">
+          Field name (id) comes here line by line with the appropriate order.
+        </div>
+        <div tal:replace="structure view/fields_field" />
+      </div>
+      <div class="field">
+        <label i18n:translate="">Separator</label>
+        <div class="formHelp" i18n:translate="">
+          If separator is used between fields.
+        </div>
+        <div tal:replace="structure view/separator_field" />
+      </div>
+      <div class="field">
+        <label i18n:translate="">Capital</label>
+        <div class="formHelp" i18n:translate="">
+          Check this if Authentication Code should be upper cases.
+        </div>
+        <div tal:replace="structure view/capital_field" />
+      </div>
+<!--      <div class="field">-->
+<!--        <label i18n:translate="">Session Fields</label>-->
+<!--        <div class="formHelp" i18n:translate="">-->
+<!--          Field name (id) comes here line by line with the appropriate order.-->
+<!--        </div>-->
+<!--        <div tal:replace="structure view/session_fields_field" />-->
+<!--      </div>-->
+
+      <input type="submit"
+             class="standalone"
+             value="Update"
+             i18n:attributes="value"
+             name="form.button.UpdatePaymentProperties" />
+  </form>
+</div>

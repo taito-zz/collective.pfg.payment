@@ -1,0 +1,65 @@
+Adapters
+========
+
+Imports and Defines
+--------------------
+    >>> from zope.component import getMultiAdapter, getUtility, provideAdapter, provideUtility
+    >>> from zope.interface import alsoProvides, implements
+
+IProperties
+-----------
+    >>> from Products.CMFPlone.interfaces.properties import ISimpleItemWithProperties
+    >>> class Tool(object):
+    ...     implements(ISimpleItemWithProperties)
+    ...     def __init__(self, **kwargs):
+    ...         for k, v in kwargs.items(): setattr(self, k, v)
+    ...     def getProperty(self, name):
+    ...         return getattr(self, name)
+    ...     def _updateProperty(self, name, value):
+    ...         setattr(self, name, value)
+    >>> from collective.pfg.payment.interfaces import IProperties
+    >>> from collective.pfg.payment.adapter.properties import Properties
+    >>> provideAdapter(Properties)
+    >>> tool = Tool(fields=[], mac='ABCD', separator="", capital=True)
+    >>> properties = IProperties(tool)
+    >>> properties
+    <collective.pfg.payment.adapter.properties.Properties object at ...>
+    >>> properties.fields
+    []
+    >>> properties.mac
+    'ABCD'
+    >>> properties.separator
+    ''
+    >>> properties.capital
+    True
+    >>> properties.fields = ['field01', 'field02']
+    >>> properties.fields
+    ['field01', 'field02']
+    >>> tool.getProperty('fields')
+    ['field01', 'field02']
+    >>> properties.mac = 'WXYZ'
+    >>> properties.mac
+    'WXYZ'
+    >>> tool.getProperty('mac')
+    'WXYZ'
+    >>> properties.separator = '|'
+    >>> properties.separator
+    '|'
+    >>> tool.getProperty('separator')
+    '|'
+    >>> properties.capital = False
+    >>> properties.capital
+    False
+    >>> tool.getProperty('capital')
+    False
+    >>> properties.input_field('mac', 10)
+     '<input type="text" name="mac" id="mac" value="WXYZ" size="10" />'
+    >>> properties.input_field('separator', 1)
+     '<input type="text" name="separator" id="separator" value="|" size="1" />'
+    >>> properties.boolean_field('capital')
+    '<input type="checkbox" name="capital" id="capital" value="on" />'
+    >>> properties.capital = True
+    >>> properties.boolean_field('capital')
+    '<input type="checkbox" name="capital" id="capital" value="on" checked="checked" />'
+    >>> properties.textarea_field('fields', 4, 20)
+    '<textarea name="fields" id="fields" rows="4" cols="20">field01\r\nfield02\r\n</textarea>'
