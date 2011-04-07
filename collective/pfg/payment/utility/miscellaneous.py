@@ -14,7 +14,7 @@ class AuthCode(object):
     def __call__(self, keys=None, code='', separator='', capital=False):
         try:
             m = hashlib.md5()
-        except ImportError:
+        except NameError:
             m = md5.new()
         scode = code
         if keys is not None:

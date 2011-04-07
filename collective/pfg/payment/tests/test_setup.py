@@ -61,7 +61,6 @@ class TestSetup(TestCase):
         self.failUnless(not self.installer.isProductInstalled('collective.pfg.payment'))
         ids = [action.id for action in self.controlpanel.listActions()]
         self.failUnless('collective_pfg_payment_config' not in ids)
-#        self.failUnless(not hasattr(self.properties, 'collective_cart_properties'))
 
 
 def test_suite():
