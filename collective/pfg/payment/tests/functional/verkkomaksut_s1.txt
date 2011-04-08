@@ -88,7 +88,7 @@ Start from Start Form
     >>> prink(msg)
     Content-Type: text/html; charset="utf-8"
     MIME-Version: 1.0
-    Content-Transfer-Encoding: quoted-printable
+    Content-Transfer-Encoding: ...
     To: <info@portal.com>
     From: 
     Subject: =?utf-8?q?Form_Submission?=
@@ -96,17 +96,30 @@ Start from Start Form
     X-HTTP_X_FORWARDED_FOR: 
     X-REMOTE_ADDR: 
     X-PATH_INFO: /plone/final_form/thank-you/@@payment-succeeded
-    Date: ...
     ...
-    <BLANKLINE>
 
     >>> browser.open(form_url)
-    >>> browser.getLink(id="make_order_number_aware").click()
+
+    >>> try:
+    ...     browser.getLink(id="make_order_number_aware").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getLink(id="make_order_number_aware").click()
+
     >>> browser.getControl(name="numbering_type").value = ['Incremental']
     >>> browser.getControl(name="next_incremental_number").value = '1'
     >>> browser.getControl(name="form.button.UpdateNumber").click()
 
-    >>> browser.getLink('View').click()
+    >>> try:
+    ...     browser.getLink('View').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getLink('View').click()
+
     >>> 'value="1"' in browser.contents
     True
     >>> 'value="2"' in browser.contents

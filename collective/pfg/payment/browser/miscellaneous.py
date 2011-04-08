@@ -65,11 +65,11 @@ class Miscellaneous(BrowserView):
                     new_number = number + 1
                     annotations.next_incremental_number = new_number
                     number = str(number)
-                if annotations.numbering_type == 'Randome':
+                if annotations.numbering_type == 'Random':
                     digits = annotations.random_number_digits
-                    ids = []
+                    ids = annotations.numbers
                     rd = getUtility(IRandomDigits)
                     number = rd(digits, ids)
-                annotations[number] = number
+                annotations.numbers.append(number)
                 session.set('collective.pfg.payment.number', number)
             return number

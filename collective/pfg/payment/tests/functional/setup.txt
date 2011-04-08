@@ -142,14 +142,12 @@ Go To FormFolder and see if there are object_buttons
 
     >>> browser.getLink('Edit Order Number').click()
     >>> browser.getControl(name="numbering_type").value = ['Incremental']
-
+    >>> browser.getControl(name="next_incremental_number").value = '1000'
     >>> try:
     ...     browser.getControl(name="form.button.UpdateNumber").click()
     ... except:
     ...     print portal.error_log.getLogEntries()[0]['tb_text']
     ...     import pdb; pdb.set_trace()
-
-
     >>> try:
     ...     browser.getLink('View').click()
     ... except:
@@ -157,18 +155,19 @@ Go To FormFolder and see if there are object_buttons
     ...     import pdb; pdb.set_trace()
     >>> 'value="1000"' in browser.contents
     True
-    >>> browser.open(form_url)
-    >>> 'value="1000"' in browser.contents
-    True
 
-    >>> 'id="make_order_number_aware"' in browser.contents
-    False
-    >>> 'id="make_order_number_unaware"' in browser.contents
-    True
+#    >>> browser.open(form_url)
+#    >>> 'value="1000"' in browser.contents
+#    True
 
-    >>> browser.getLink(id="make_order_number_unaware").click()
+#    >>> 'id="make_order_number_aware"' in browser.contents
+#    False
+#    >>> 'id="make_order_number_unaware"' in browser.contents
+#    True
 
-    >>> 'id="make_order_number_aware"' in browser.contents
-    True
-    >>> 'id="make_order_number_unaware"' in browser.contents
-    False
+#    >>> browser.getLink(id="make_order_number_unaware").click()
+
+#    >>> 'id="make_order_number_aware"' in browser.contents
+#    True
+#    >>> 'id="make_order_number_unaware"' in browser.contents
+#    False

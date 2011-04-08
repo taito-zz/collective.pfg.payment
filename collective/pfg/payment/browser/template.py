@@ -48,13 +48,11 @@ class EditOrderNumberView(BrowserView):
         context = aq_inner(self.context)
         annotations = IAnnotations(context)['collective.pfg.payment']
         if form.get("form.button.UpdateNumber", None) is not None:
-#            next_incremental_number = form.get('next_incremental_number', None)
-#            re = getUtility(IRegularExpression)
-#            if re.integer(next_incremental_number):
-#                annotations.next_incremental_number = int(next_incremental_number)
-#            random_number_digits = form.get('random_number_digits', None)
-#            if re.integer(random_number_digits):
-#                annotations.random_number_digits = int(random_number_digits)
+            sdm = getToolByName(context, 'session_data_manager')
+            session = sdm.getSessionData(create=False)
+            if session is not None:
+                if session.get('collective.pfg.payment.number', None) is not None:
+                    del session['collective.pfg.payment.number']
             re = getUtility(IRegularExpression)
             numbering_type = form.get('numbering_type')
             if numbering_type == 'Incremental':
@@ -65,7 +63,7 @@ class EditOrderNumberView(BrowserView):
                 else:
                     message = _(u"Please input integer number for the incremental number.")
                     IStatusMessage(self.request).addStatusMessage(message, type='warn')
-            if numbering_type == 'Random':
+            elif numbering_type == 'Random':
                 annotations.numbering_type = 'Random'
                 random_number_digits = form.get('random_number_digits', None)
                 if re.integer(random_number_digits):
