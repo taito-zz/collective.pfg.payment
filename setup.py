@@ -1,13 +1,22 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.0'
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
+version = read('collective', 'pfg', 'payment', 'version.txt')[:-1]
+
+long_description = (
+    open("README.txt").read() + "\n" +
+    open(os.path.join("docs", "HISTORY.txt")).read() + "\n" +
+    open(os.path.join("docs", "INSTALL.txt")).read() + "\n" +
+    open(os.path.join("docs", "CREDITS.txt")).read()
+    )
 
 setup(name='collective.pfg.payment',
       version=version,
-      description="",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      description="Extends PloneFormGen to payment form.",
+      long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -25,6 +34,7 @@ setup(name='collective.pfg.payment',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.PloneFormGen',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
