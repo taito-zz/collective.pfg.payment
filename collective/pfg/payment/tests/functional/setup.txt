@@ -1,6 +1,8 @@
 Initial imports and defines.
 ----
     >>> portal_url =  portal.absolute_url()
+    >>> form = portal.form
+    >>> form_url = form.absolute_url()
 
 Setting up.
 ----
@@ -64,4 +66,109 @@ Go to Site Setup and to Cart Config
     True
     >>> 'value="on" checked="checked"' in browser.contents
     True
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
+
+Go To FormFolder and see if there are object_buttons
+-----------------------------------------------------
+    >>> browser.open(form_url)
+    >>> 'id="make_order_number_aware"' in browser.contents
+    True
+    >>> 'id="make_order_number_unaware"' in browser.contents
+    False
+    >>> browser.getLink(id="make_order_number_aware").click()
+    >>> browser.url
+    'http://nohost/plone/form/@@edit-order-number'
+    >>> 'value="Incremental" selected="selected"' in browser.contents
+    True
+    >>> 'value="Random" selected="selected"' in browser.contents
+    False
+    >>> 'value="1"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    True
+    >>> browser.getControl(name="next_incremental_number").value = '1000'
+    >>> browser.getControl(name="random_number_digits").value = ''
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateNumber").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+
+    >>> 'value="Incremental" selected="selected"' in browser.contents
+    True
+    >>> 'value="Random" selected="selected"' in browser.contents
+    False
+    >>> 'value="1"' in browser.contents
+    False
+    >>> 'value="1000"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    True
+
+
+    >>> browser.getControl(name="numbering_type").value = ['Random']
+    >>> browser.getControl(name="random_number_digits").value = '10'
+  
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateNumber").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+    >>> 'value="Random" selected="selected"' in browser.contents
+    True
+    >>> 'value="1"' in browser.contents
+    False
+    >>> 'value="1000"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    False
+    >>> 'value="10"' in browser.contents
+    True
+
+    >>> topic = form.topic
+    >>> topic.setFgTDefault('python:here.restrictedTraverse("number")')
+
+    >>> try:
+    ...     browser.getLink('View').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+    >>> browser.getLink('Edit Order Number').click()
+    >>> browser.getControl(name="numbering_type").value = ['Incremental']
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateNumber").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+
+    >>> try:
+    ...     browser.getLink('View').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> 'value="1000"' in browser.contents
+    True
+    >>> browser.open(form_url)
+    >>> 'value="1000"' in browser.contents
+    True
+
+    >>> 'id="make_order_number_aware"' in browser.contents
+    False
+    >>> 'id="make_order_number_unaware"' in browser.contents
+    True
+
+    >>> browser.getLink(id="make_order_number_unaware").click()
+
+    >>> 'id="make_order_number_aware"' in browser.contents
+    True
+    >>> 'id="make_order_number_unaware"' in browser.contents
+    False

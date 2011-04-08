@@ -101,6 +101,7 @@ class TestSetup(base.FunctionalTestCase):
             'FormStringField',
             'ORDER_NUMBER',
             fgDefault = '1',
+            fgTDefault = 'python:here.restrictedTraverse("number")()',
         )
         form.invokeFactory(
             'FormStringField',
@@ -196,6 +197,7 @@ class TestSetup(base.FunctionalTestCase):
         sm = getSiteManager(context=portal)
         sm.unregisterUtility(provided=IMailHost)
         sm.registerUtility(aq_base(portal._original_MailHost), provided=IMailHost)
+
 
 def test_suite():
     return unittest.TestSuite([

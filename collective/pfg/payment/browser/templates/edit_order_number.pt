@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="collective.pfg.payment">
+  <body>
+    <div metal:fill-slot="main" class="top-page">
+      <h1 i18n:translate="">Edit Order Number</h1>
+      <form method="post" tal:attributes="action view/current_url">
+        <div class="field">
+          <label i18n:translate="">Numbering Type</label>
+          <div class="formHelp" id="description_help" i18n:translate="">
+            Select the numbering type.
+          </div>
+          <div tal:replace="structure view/select_numbering_type" />
+        </div>
+        <div class="field">
+          <label i18n:translate="">Next Number</label>
+          <div class="formHelp" id="description_help" i18n:translate="">
+            This number is used only when you prefer to use incremental numbers.
+            Keep this field emply if you want to use random numbers.
+          </div>
+          <input type="text"
+                 name="next_incremental_number"
+                 id="next_incremental_number"
+                 size="10"
+                 maxlength="20"
+                 tal:attributes="value view/next_incremental_number" />
+        </div>
+        <div class="field">
+          <label i18n:translate="">Random Digits</label>
+          <div class="formHelp" id="description_help" i18n:translate="">
+            Give digits for random numbering.
+          </div>
+          <input type="text"
+                 name="random_number_digits"
+                 id="random_number_digits"
+                 size="2"
+                 maxlength="3"
+                 tal:attributes="value view/random_number_digits" />
+        </div>
+        <input type="submit"
+               class="standalone"
+               value="Update"
+               i18n:attributes="value"
+               name="form.button.UpdateNumber" />
+      </form>
+    </div>
+  </body>
+</html>

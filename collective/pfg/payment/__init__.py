@@ -1,6 +1,6 @@
 from zope.i18nmessageid import MessageFactory
 
-CartMessageFactory = MessageFactory('collective.pfg.payment')
+PaymentMessageFactory = MessageFactory('collective.pfg.payment')
 
 
 def initialize(context):

@@ -17,6 +17,13 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="edit-order-number"
+      for="Products.PloneFormGen.interfaces.IPloneFormGenForm"
+      class=".template.EditOrderNumberView"
+      permission="cmf.ModifyPortalContent"
+      />
+
   <!-- Miscellaneous -->
   <browser:page
       name="auth-code"
@@ -25,6 +32,39 @@
       permission="zope2.View"
       attribute="auth_code"
       />
+
+  <browser:page
+      name="make-order-number-aware"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="make_order_number_aware"
+      />
+
+  <browser:page
+      name="make-order-number-unaware"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="make_order_number_unaware"
+      />
+
+  <browser:page
+      name="is-order-number-aware"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="is_order_number_aware"
+      />
+
+  <browser:page
+      name="number"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="number"
+      />
+
 
 <!--  <browser:page-->
 <!--      name="fields-to-session"-->

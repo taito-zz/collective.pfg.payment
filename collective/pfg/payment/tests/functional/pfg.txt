@@ -47,5 +47,3 @@ Log in as the portal owner.
     >>> browser.open(form_url)
     >>> '91A9848AC8BCDF6D5A8EBDB5A041B00E' in browser.contents
     True
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
-

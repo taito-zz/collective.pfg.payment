@@ -1,4 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
   <utility factory=".miscellaneous.AuthCode" />
+  <utility factory=".miscellaneous.RegularExpression" />
+  <utility factory=".miscellaneous.RandomDigits" />
 </configure>

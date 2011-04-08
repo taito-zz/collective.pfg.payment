@@ -18,6 +18,7 @@ class TestSetup(TestCase):
 #        self.site_properties = getattr(self.properties, 'site_properties')
 #        self.navtree_properties = getattr(self.properties, 'navtree_properties')
         self.ccp = getattr(self.properties, 'collective_pfg_payment_properties')
+        self.actions = getToolByName(self.portal, 'portal_actions')
 
     def test_is_pfg_installed(self):
         self.failUnless(self.installer.isProductInstalled('PloneFormGen'))
@@ -55,12 +56,42 @@ class TestSetup(TestCase):
         self.assertEquals('string', self.ccp.getPropertyType('separator'))
         self.assertEquals('boolean', self.ccp.getPropertyType('capital'))
 
+    ## actions.xml
+    def test_make_order_number_aware(self):
+        matc = self.actions.object_buttons.make_order_number_aware
+        self.assertEqual('Make Order Number Aware', matc.getProperty('title'))
+        self.assertEqual('string:${globals_view/getCurrentObjectUrl}/@@make-order-number-aware', matc.getProperty('url_expr'))
+        self.assertEqual('python: not object.restrictedTraverse("is-order-number-aware")()', matc.getProperty('available_expr'))
+        self.assertEqual(('Modify portal content',), matc.getProperty('permissions'))
+        self.assertEqual(True, matc.getProperty('visible'))
+
+    def test_make_order_number_unaware(self):
+        matc = self.actions.object_buttons.make_order_number_unaware
+        self.assertEqual('Make Order Number Unaware', matc.getProperty('title'))
+        self.assertEqual('string:${globals_view/getCurrentObjectUrl}/@@make-order-number-unaware', matc.getProperty('url_expr'))
+        self.assertEqual('python: object.restrictedTraverse("is-order-number-aware")()', matc.getProperty('available_expr'))
+        self.assertEqual(('Modify portal content',), matc.getProperty('permissions'))
+        self.assertEqual(True, matc.getProperty('visible'))
+
+    def test_editProduct(self):
+        matc = self.actions.object.edit_order_number
+        self.assertEqual('Edit Order Number', matc.getProperty('title'))
+        self.assertEqual('string:${object_url}/@@edit-order-number', matc.getProperty('url_expr'))
+        self.assertEqual('python: object.restrictedTraverse("is-order-number-aware")()', matc.getProperty('available_expr'))
+        self.assertEqual(('Modify portal content',), matc.getProperty('permissions'))
+        self.assertEqual(True, matc.getProperty('visible'))
+
+
+
     ## Uninstalling
     def test_uninstall(self):
         self.installer.uninstallProducts(['collective.pfg.payment'])
         self.failUnless(not self.installer.isProductInstalled('collective.pfg.payment'))
         ids = [action.id for action in self.controlpanel.listActions()]
         self.failUnless('collective_pfg_payment_config' not in ids)
+        self.failIf(hasattr(self.actions.object_buttons, 'make_order_number_aware'))
+        self.failIf(hasattr(self.actions.object_buttons, 'make_order_number_unaware'))
+        self.failIf(hasattr(self.actions.object, 'edit_order_number'))
 
 
 def test_suite():

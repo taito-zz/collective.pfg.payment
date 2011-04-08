@@ -14,6 +14,13 @@ class TestSetup(base.FunctionalTestCase):
         self.setRoles(('Manager',))
         ## Set up sessioning objects
         ztc.utils.setupCoreSessions(self.app)
+        self.portal.invokeFactory(
+            'FormFolder',
+            'form',
+            title="Form Folder",
+        )
+        form = self.portal.form
+
 
 
 def test_suite():

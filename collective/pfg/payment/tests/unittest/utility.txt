@@ -183,3 +183,67 @@ IAuthCode
     >>> keys = ns
     >>> ac(keys, code=CODE, separator='|', capital=True) == AUTHCODE
     True
+
+IRegularEXpression
+----
+    >>> from collective.pfg.payment.interfaces import IRegularExpression
+    >>> from collective.pfg.payment.utility.miscellaneous import RegularExpression
+    >>> provideUtility(RegularExpression(), provides=IRegularExpression)
+    >>> re = getUtility(IRegularExpression)
+    >>> re.email('aaa')
+    False
+    >>> re.email('333')
+    False
+    >>> re.email('ggg@')
+    False
+    >>> re.email('a@a.com')
+    True
+    >>> re.integer('aaa')
+    False
+    >>> re.integer('5.5')
+    False
+    >>> re.integer('5')
+    True
+    >>> re.integer('50')
+    True
+    >>> re.float('aaa')
+    False
+    >>> re.float('5')
+    True
+    >>> re.float('5a5')
+    False
+    >>> re.float('50.55')
+    True
+
+IRandomDigits
+----
+    >>> from collective.pfg.payment.interfaces import IRandomDigits
+    >>> from collective.pfg.payment.utility.miscellaneous import RandomDigits
+    >>> provideUtility(RandomDigits(), provides=IRandomDigits)
+    >>> rd = getUtility(IRandomDigits)
+    >>> ids = ['6', '5', '4', '3', '2', '1', '0']
+    >>> len(rd(4, None))
+    4
+    >>> rd(-1, ids)
+    ''
+    >>> rd(1, ids) in ['9', '8', '7']
+    True
+    >>> len(rd(2, ids))
+    2
+    >>> len(rd(10, ids))
+    10
+    >>> len(rd(2, []))
+    2
+    >>> ids = range(1,10)
+    >>> ids = [str(id) for id in ids]
+    >>> rd(1, ids)
+    '0'
+    >>> ids = range(1,11)
+    >>> ids = [str(id) for id in ids]
+    >>> len(ids)
+    10
+    >>> rd(1, ids)
+    Traceback (most recent call last):
+    ...
+    InfiniteLoopError: All the numbers with digits 1 are used.
+
