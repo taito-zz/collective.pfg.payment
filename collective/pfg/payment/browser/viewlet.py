@@ -21,12 +21,11 @@ class PaymentViewletBase(ViewletBase):
 class PaymentConfigPropertiesViewlet(PaymentViewletBase):
     """Properties Viewlet for Payment Config."""
 
-    index = ViewPageTemplateFile("viewlets/payment_properties.pt")
+    index = render = ViewPageTemplateFile("viewlets/payment_properties.pt")
 
     def update(self):
         form = self.request.form
         if form.get('form.button.UpdatePaymentProperties', None) is not None:
-#            context = aq_inner(self.context)
             mac = form.get('mac', None)
             if mac is not None:
                 self.payment_properties.mac = mac
@@ -40,10 +39,6 @@ class PaymentConfigPropertiesViewlet(PaymentViewletBase):
             if fields is not None:
                 values = [field for field in fields.split('\r\n') if field != '']
                 self.payment_properties.fields = values
-#            session_fields = form.get('session_fields', None)
-#            if session_fields is not None:
-#                values = [field for field in session_fields.split('\r\n') if field != '']
-#                self.payment_properties.session_fields = values
 
     @property
     def payment_properties(self):
@@ -64,7 +59,3 @@ class PaymentConfigPropertiesViewlet(PaymentViewletBase):
 
     def capital_field(self):
         return self.payment_properties.boolean_field('capital')
-
-#    def session_fields_field(self):
-#        return self.payment_properties.textarea_field(
-#            'session_fields', 10, 20)
