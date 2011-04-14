@@ -60,6 +60,7 @@ class PaymentSucceededView(BrowserView):
                         doit = True
 
                     if doit:
+                        import pdb; pdb.set_trace()
                         names = items.keys()
                         fields = [parent[name] for name in names]
                         result = actionAdapter.onSuccess(fields, REQUEST=self.request)
