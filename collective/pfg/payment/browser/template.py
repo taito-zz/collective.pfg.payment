@@ -5,7 +5,10 @@ from zope.component import getMultiAdapter, getUtility
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.Expression import getExprContext
+from Products.CMFPlone.utils import safe_hasattr
 from Products.statusmessages.interfaces import IStatusMessage
 
 from collective.pfg.payment import PaymentMessageFactory as _
@@ -33,7 +36,44 @@ class PaymentSucceededView(BrowserView):
         items = session.get('collective.pfg.payment', {})
         self.request.form = items
         parent = aq_parent(context)
-        parent.fgProcessActionAdapters(None, fields=None, REQUEST=self.request)
+        try:
+            # PloneFormGen-1.6.0
+            parent.fgProcessActionAdapters(None, fields=None, REQUEST=self.request)
+        except AttributeError:
+            # PloneFormGen-1.2.7
+            adapters = parent.getRawActionAdapter()
+            for adapter in adapters:
+                actionAdapter = getattr(parent.aq_explicit, adapter, None)
+                if actionAdapter is None:
+                    pass
+                else:
+                    # Now, see if we should execute it.
+                    # Check to see if execCondition exists and has contents
+                    if safe_hasattr(actionAdapter, 'execCondition') and \
+                      len(actionAdapter.getRawExecCondition()):
+                        # evaluate the execCondition.
+                        # create a context for expression evaluation
+                        context = getExprContext(parent, actionAdapter)
+                        doit = actionAdapter.getExecCondition(expression_context=context)
+                    else:
+                        # no reason not to go ahead
+                        doit = True
+
+                    if doit:
+                        import pdb; pdb.set_trace()
+                        names = items.keys()
+                        fields = [parent[name] for name in names]
+                        result = actionAdapter.onSuccess(fields, REQUEST=self.request)
+                        if type(result) is type({}) and len(result):
+                            # return the dict, which hopefully uses
+                            # field ids or FORM_ERROR_MARKER for keys
+                            return result
+
+
+
+
+
+
         self.items = context.displayInputs(self.request)
         if session.get('collective.pfg.payment.number'):
             del session['collective.pfg.payment.number']
