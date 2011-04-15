@@ -64,7 +64,6 @@ Go to Site Setup and to Cart Config
     True
     >>> 'value="on" checked="checked"' in browser.contents
     False
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
     >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
     >>> browser.getControl(name="separator").value = '|'
