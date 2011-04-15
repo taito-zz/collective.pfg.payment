@@ -8,7 +8,7 @@ Currently tested with
 
 * Plone-3.3.5
 
-* Plone-4.1b
+* Plone-4.1b2
 
 * Products.PloneFormGen-1.6.0
 
