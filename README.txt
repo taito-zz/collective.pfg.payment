@@ -26,26 +26,19 @@ Example use case
 General Setup
 -------------
 
-Once the package is quickinstalled, you need to configure  authentication code calculation::
+Once the package is quickinstalled, you need to configure  authentication code calculation from *Site Setup* >> *Payment Config*
 
-    Site Setup >> Payment Config
-
-MAC Code::
-
+**MAC Code**
     This code is provided by payment provider.
 
-Fields::
-
+**Fields**
     Input field names which will be used for the calculation line by line.
 
-Separator::
-
+**Separator**
     Input separator between field values if necessary.
 
-Capital::
-
+**Capital**
     Check this if calculated authentication code need to be upper cases.
-
 
 
 Tested HTML Interfaces and their configurations
@@ -54,39 +47,47 @@ Tested HTML Interfaces and their configurations
 Verkkomakust S1 (Finland)
 -------------------------
 
-Payment Config for testing.
----------------------------
-
-
-MAC Code::
-
+**MAC Code**
     6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ
 
-Fields::
+**Fields**
 
     MERCHANT_ID
+
     AMOUNT
+
     ORDER_NUMBER
+
     REFERENCE_NUMBER
+
     ORDER_DESCRIPTION
+
     CURRENCY
+
     RETURN_ADDRESS
+
     CANCEL_ADDRESS
+
     PENDING_ADDRESS
+
     NOTIFY_ADDRESS
+
     TYPE
+
     CULTURE
+
     PRESELECTED_METHOD
+
     MODE
+
     VISIBLE_METHODS
+
     GROUP
 
-Separator::
+**Separator**
+    \| (Vertical bar)
 
-    |
-
-Capital::
-
+**Capital**
     Checked
 
 Example use case
@@ -94,121 +95,128 @@ Example use case
 
 1. Create Form where payment process starts: FormFolder1
 
-Edit >> Overrides >> Custom Success Action::
+    *Edit* >> *Overrides* >> *Custom Success Action*
 
-    traverse_to:string:formfolder2
+        traverse_to:string:formfolder2
 
-* formfolder2 is the next form where the confirmation happens.
+    * formfolder2 is the next form where the confirmation happens.
 
-2. Add Decimal Number Field with id named AMOUNT.
+2. Add *Decimal Field* with id named **AMOUNT**.
 
-* Plone automatically set id from title, but with lower cases. To set id upper cases, you may need to change it, for example from Contents tab.
+    * Plone automatically set id from title, but with lower cases. To set id upper cases, you may need to change it, for example from Contents tab.
 
-* Optionally if you want to send email or show results after the successful payment, add Custom Script Adapter here and describe to script body something like::
+    * Optionally if you want to send email or show results after the successful payment, add Custom Script Adapter here and describe to script body something like::
 
-    items = dict(
-        AMOUNT=request.form["AMOUNT"],
-        topic=request.form["topic"]
-    )
-    request.SESSION.set("collective.pfg.payment", items)
+        items = dict(
+            AMOUNT=request.form["AMOUNT"],
+            topic=request.form["topic"]
+        )
+        request.SESSION.set("collective.pfg.payment", items)
 
-This means that AMOUNT and topic fields are stored in session and can be displayed after the successful payment.
+    * This means that AMOUNT and topic fields are stored in session and can be displayed after the successful payment.
 
 3. Create another Form: FormFolder2
 
-Edit >> Overrides >> Custom Form Action::
+    *Edit* >> *Overrides* >> *Custom Form Action*
 
-    https://payment.verkkomaksut.fi/
+        https://payment.verkkomaksut.fi/
 
-View >> Actions >> Make Order Number Aware::
+    *View* >> *Actions* >> *Make Order Number Aware*
 
-    Change the numbering behavior if necessary.
+        Change the numbering behavior if necessary.
 
-4. Add the next fields with String Field.::
+4. Add all of the next fields with *String Field*.
 
     MERCHANT_ID
+
     AMOUNT
+
     ORDER_NUMBER
+
     REFERENCE_NUMBER
+
     ORDER_DESCRIPTION
+
     CURRENCY
+
     RETURN_ADDRESS
+
     CANCEL_ADDRESS
+
     PENDING_ADDRESS
+
     NOTIFY_ADDRESS
+
     TYPE
+
     CULTURE
+
     PRESELECTED_METHOD
+
     MODE
+
     VISIBLE_METHODS
+
     GROUP
+
     AUTHCODE
 
 * The field ids must be upper cases.
 
-* These fields below needs to be configured::
+* These fields below needs to be configured
 
-    MERCHANT_ID
-    ORDER_NUMBER
-    CURRENCY
-    RETURN_ADDRESS
-    CANCEL_ADDRESS
-    NOTIFY_ADDRESS
-    TYPE
-    CULTURE
-    MODE
-    AUTHCODE
-
-    MERCHANT_ID
-        Edit >> Default
+    **MERCHANT_ID**
+        *Edit* >> *Default*
             13466
 
-    ORDER_NUMBER
-        Edit >> Overrides >> Default Expression
+    **ORDER_NUMBER**
+        *Edit* >> *Overrides* >> *Default Expression*
             python:here.restrictedTraverse('number')()
 
-    CURRENCY
-        Edit >> Default
+    **CURRENCY**
+        *Edit* >> *Default*
             EUR
 
-    RETURN_ADDRESS
-        Edit >> Overrides >> Default Expression
+    **RETURN_ADDRESS**
+        *Edit* >> *Overrides* >> *Default Expression*
             string:${portal_url}/formfolder3/thank-you/@@payment-succeeded
 
     * Assuming that FormFolder3 will be created under plone root.
     * If field values are not necessary to be sent by e-mail or displayed after successful payment, you can give different address here and FormFolder3 is not necessary.
 
-    CANCEL_ADDRESS
-        Edit >> Overrides >> Default Expression
+    **CANCEL_ADDRESS**
+        *Edit* >> *Overrides* >> *Default Expression*
             string:${portal_url}/formfolder1
 
-* Assuming that FormFolder1 is created under plone root.
+    * Assuming that FormFolder1 is created under plone root.
 
-    NOTIFY_ADDRESS
-        Edit >> Overrides >> Default Expression
+    **NOTIFY_ADDRESS**
+        *Edit* >> *Overrides* >> *Default Expression*
             string:${portal_url}
 
-    TYPE
-        Edit >> Default
+    **TYPE**
+        *Edit* >> *Default*
             S1
 
-    CULTURE
-        Edit >> Default
+    **CULTURE**
+        *Edit* >> *Default*
             fi_FI
 
-    MODE
-        Edit >> Default
+    **MODE**
+        *Edit* >> *Default*
             1
 
-    AUTHCODE
-        Edit >> Overrides >> Default Expression
+    **AUTHCODE**
+        *Edit* >> *Overrides* >> *Default Expression*
             python:here.restrictedTraverse('auth-code')
 
-3. Create another Form: FormFolder3
+5. Create another Form: FormFolder3
 
-* In case e-mails need to be sent and field values displayed after the successful payment.
+In case e-mails need to be sent and field values displayed after the successful payment.
 
-    To show the field values, you need to add or copy the original field to this FormFolder.
+We use thank-you page automatically created under FormFolder3.
+
+    To show the field values, you need to add or copy the original field which were in FormFolder1 to this FormFolder.
 
     * The type of field need to be the same as the original one.
-    * In this case String Field with id topic and Decimal Number Field with id AMOUNT need to be added.
+    * For example, if you want to show topic and AMOUNT, String Field with id topic and Decimal Number Field with id AMOUNT need to be added under FormFolder3.
