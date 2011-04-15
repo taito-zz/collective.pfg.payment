@@ -32,9 +32,8 @@ class PaymentConfigPropertiesViewlet(PaymentViewletBase):
             separator = form.get('separator', None)
             if separator is not None:
                 self.payment_properties.separator = separator
-            capital = form.get('capital', None)
-            if capital is not None:
-                self.payment_properties.capital = capital
+            capital = form.get('capital', False)
+            self.payment_properties.capital = capital
             fields = form.get('fields', None)
             if fields is not None:
                 values = [field for field in fields.split('\r\n') if field != '']

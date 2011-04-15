@@ -47,6 +47,24 @@ Go to Site Setup and to Cart Config
 ----
     >>> browser.getLink('Site Setup').click()
     >>> browser.getLink('Payment Config').click()
+    >>> browser.getControl(name="mac").value = 'ABCDEFG'
+    >>> browser.getControl(name="fields").value = 'FIELD01\r\nFIELD02\r\nFIELD03'
+    >>> browser.getControl(name="separator").value = ','
+    >>> browser.getControl(name="capital").value = False
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdatePaymentProperties").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> 'value="ABCDEFG"' in browser.contents
+    True
+    >>> 'FIELD01\r\nFIELD02\r\nFIELD03' in browser.contents
+    True
+    >>> 'value=","' in browser.contents
+    True
+    >>> 'value="on" checked="checked"' in browser.contents
+    False
+    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
     >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
     >>> browser.getControl(name="separator").value = '|'
