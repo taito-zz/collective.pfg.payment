@@ -46,7 +46,17 @@ Log in as the portal owner.
 Go to Site Setup and to Cart Config
 ----
     >>> browser.getLink('Site Setup').click()
-    >>> browser.getLink('Payment Config').click()
+
+    >>> try:
+    ...     browser.getLink('Payment Config').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+    >>> 'name="local_payment"' in browser.contents
+    False
+    >>> 'name="capital" value="on" checked="checked"' in browser.contents
+    True
     >>> browser.getControl(name="mac").value = 'ABCDEFG'
     >>> browser.getControl(name="fields").value = 'FIELD01\r\nFIELD02\r\nFIELD03'
     >>> browser.getControl(name="separator").value = ','
@@ -62,7 +72,7 @@ Go to Site Setup and to Cart Config
     True
     >>> 'value=","' in browser.contents
     True
-    >>> 'value="on" checked="checked"' in browser.contents
+    >>> 'name="capital" value="on" checked="checked"' in browser.contents
     False
     >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
     >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
@@ -91,7 +101,16 @@ Go To FormFolder and see if there are object_buttons
     True
     >>> 'id="make_order_number_unaware"' in browser.contents
     False
-    >>> browser.getLink(id="make_order_number_aware").click()
+
+    >>> try:
+    ...     browser.getLink(id="make_order_number_aware").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getLink(id="make_order_number_aware").click()
+
+
     >>> browser.url
     'http://nohost/plone/form/@@edit-order-number'
     >>> 'value="Incremental" selected="selected"' in browser.contents
@@ -173,18 +192,36 @@ Go To FormFolder and see if there are object_buttons
     >>> 'value="1000"' in browser.contents
     True
 
-#    >>> browser.open(form_url)
-#    >>> 'value="1000"' in browser.contents
-#    True
+    >>> browser.getLink('Edit Order Number').click()
+    >>> 'name="local_payment"' in browser.contents
+    True
+    >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
+    >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
+    >>> browser.getControl(name="separator").value = '|'
+    >>> browser.getControl(name="capital").value = True
 
-#    >>> 'id="make_order_number_aware"' in browser.contents
-#    False
-#    >>> 'id="make_order_number_unaware"' in browser.contents
-#    True
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdatePaymentProperties").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
 
-#    >>> browser.getLink(id="make_order_number_unaware").click()
+    >>> 'value="6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ"' in browser.contents
+    True
+    >>> 'field01\r\nfield02\r\n' in browser.contents
+    True
+    >>> 'value="|"' in browser.contents
+    True
+    >>> 'value="on" checked="checked"' in browser.contents
+    True
 
-#    >>> 'id="make_order_number_aware"' in browser.contents
-#    True
-#    >>> 'id="make_order_number_unaware"' in browser.contents
-#    False
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    False
+    >>> browser.getControl(name="local_payment").value = True
+    >>> browser.getControl(name="form.button.UseLocalPayment").click()
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    True
+    >>> browser.getControl(name="local_payment").value = False
+    >>> browser.getControl(name="form.button.UseLocalPayment").click()
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    False

@@ -2,6 +2,7 @@ from Acquisition import aq_inner, aq_parent
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.interface import alsoProvides, noLongerProvides
+#from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PloneFormGen.interfaces import IPloneFormGenForm
@@ -20,6 +21,10 @@ class Miscellaneous(BrowserView):
         context = aq_inner(self.context)
         properties = getToolByName(context, 'portal_properties')
         prop = getattr(properties, 'collective_pfg_payment_properties')
+        parent = aq_parent(context)
+        numbers = IAnnotations(parent).get('collective.pfg.payment')
+        if numbers and numbers.local_payment:
+            prop = numbers
         keys = IProperties(prop).fields
         names = [key.replace(' ', '') for key in keys]
         code = IProperties(prop).mac

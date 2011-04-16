@@ -40,6 +40,7 @@ Once the package is quickinstalled, you need to configure  authentication code c
 **Capital**
     Check this if calculated authentication code need to be upper cases.
 
+*You may configure payment settings locally to Form Folders.*
 
 Tested HTML Interfaces and their configurations
 ===============================================
@@ -124,6 +125,8 @@ Example use case
     *View* >> *Actions* >> *Make Order Number Aware*
 
         Change the numbering behavior if necessary.
+
+        *Here you may set the payment configuration locally. This will overrides global configuration.*
 
 4. Add all of the next fields with *String Field*.
 

@@ -33,14 +33,6 @@
         </div>
         <div tal:replace="structure view/capital_field" />
       </div>
-<!--      <div class="field">-->
-<!--        <label i18n:translate="">Session Fields</label>-->
-<!--        <div class="formHelp" i18n:translate="">-->
-<!--          Field name (id) comes here line by line with the appropriate order.-->
-<!--        </div>-->
-<!--        <div tal:replace="structure view/session_fields_field" />-->
-<!--      </div>-->
-
       <input type="submit"
              class="standalone"
              value="Update"

@@ -1,9 +1,5 @@
 from persistent import Persistent
-#from BTrees.OOBTree import OOBTree
-
 from zope.interface import implements
-from persistent.list import PersistentList
-
 from collective.pfg.payment.interfaces import INumbers
 
 
@@ -16,21 +12,19 @@ class Numbers(Persistent):
         numbering_type = 'Incremental',
         next_incremental_number=1,
         random_number_digits=5,
-#        numbers =  PersistentList()
-        numbers =  []
+        numbers =  [],
+        mac = '',
+        fields = [],
+        separator = '',
+        capital = False,
+        local_payment = False,
     ):
         self.numbering_type = numbering_type
         self.next_incremental_number = next_incremental_number
         self.random_number_digits = random_number_digits
         self.numbers = numbers
-
-
-#class Number(Persistent):
-
-#    implements(INumber)
-
-#    def __init__(self, number):
-#        self.number = number
-
-#    def __call__(self):
-#        pass
+        self.mac = mac
+        self.fields = fields
+        self.separator = separator
+        self.capital = capital
+        self.local_payment = local_payment

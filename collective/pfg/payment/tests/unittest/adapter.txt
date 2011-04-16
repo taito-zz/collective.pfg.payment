@@ -8,9 +8,13 @@ Imports and Defines
 
 IProperties
 -----------
-    >>> from Products.CMFPlone.interfaces.properties import ISimpleItemWithProperties
+
+#    >>> from Products.CMFPlone.interfaces.properties import ISimpleItemWithProperties
+
+    >>> from OFS.interfaces import IItem
+
     >>> class Tool(object):
-    ...     implements(ISimpleItemWithProperties)
+    ...     implements(IItem)
     ...     def __init__(self, **kwargs):
     ...         for k, v in kwargs.items(): setattr(self, k, v)
     ...     def getProperty(self, name):
@@ -60,6 +64,6 @@ IProperties
     '<input type="checkbox" name="capital" id="capital" value="on" />'
     >>> properties.capital = True
     >>> properties.boolean_field('capital')
-    '<input type="checkbox" name="capital" id="capital" value="on" checked="checked" />'
+    '<input type="checkbox" id="capital" name="capital" value="on" checked="checked" />'
     >>> properties.textarea_field('fields', 4, 20)
     '<textarea name="fields" id="fields" rows="4" cols="20">field01\r\nfield02\r\n</textarea>'

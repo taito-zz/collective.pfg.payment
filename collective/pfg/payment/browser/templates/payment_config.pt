@@ -7,7 +7,18 @@
       i18n:domain="collective.pfg.payment">
   <body>
     <div metal:fill-slot="prefs_configlet_main">
-      <h1 class="documentFirstHeading" i18n:translate="">Payment Config</h1>
+      <h1 class="documentFirstHeading" i18n:translate="">Global Payment Config</h1>
+      <p>
+        <span i18n:translate="">
+          Here you can configure the payment processor globally.
+        </span>
+        <span i18n:translate="">
+          If you need to configure locally, set those values below in Form Folder.
+        </span>
+        <span>
+          <b>Actions</b> >> <b>Make Order Number Aware</b>
+        </span>
+      </p>
       <div tal:replace="structure provider:collective.pfg.payment.config.manager" />
     </div>
   </body>

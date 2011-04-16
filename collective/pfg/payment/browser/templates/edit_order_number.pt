@@ -47,6 +47,8 @@
                i18n:attributes="value"
                name="form.button.UpdateNumber" />
       </form>
+      <h1 class="documentFirstHeading" i18n:translate="">Local Payment Config</h1>
+      <div tal:replace="structure provider:collective.pfg.payment.config.manager" />
     </div>
   </body>
 </html>

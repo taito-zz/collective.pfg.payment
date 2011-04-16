@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.2.0 (2011-04-16)
+------------------
+
+- Added local payment configuration for multiple payment processors.
+
 0.1.1 (2011-04-15)
 ------------------
 

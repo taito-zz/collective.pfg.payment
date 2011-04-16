@@ -99,4 +99,12 @@
     permission="cmf.ModifyPortalContent"
     />
 
+  <browser:viewlet
+    name="collective.pfg.payment.local.payment"
+    manager="collective.pfg.payment.interfaces.IPaymentConfigViewletManager"
+    class=".viewlet.LocalPaymentViewlet"
+    permission="cmf.ModifyPortalContent"
+    for="Products.PloneFormGen.interfaces.form.IPloneFormGenForm"
+    />
+
 </configure>
