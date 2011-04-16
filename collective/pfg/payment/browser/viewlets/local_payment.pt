@@ -1,0 +1,12 @@
+<div id="local-payment" i18n:domain="collective.pfg.payment">
+  <form method="post"
+        tal:attributes="action view/current_url">
+    <div tal:replace="structure view/local_payment" />
+    <span i18n:translate="">Check this if you use local payment configuration.</span>
+    <input type="submit"
+           class="standalone"
+           value="Update"
+           i18n:attributes="value"
+           name="form.button.UseLocalPayment" />
+  </form>
+</div>
