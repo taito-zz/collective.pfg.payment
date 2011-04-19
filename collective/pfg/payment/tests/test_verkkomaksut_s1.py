@@ -110,12 +110,12 @@ class TestSetup(base.FunctionalTestCase):
         )
         form.invokeFactory(
             'FormStringField',
-            'ORDER_DESCRIPTION ',
+            'ORDER_DESCRIPTION',
             fgDefault = 'taito.horiuchi@gmail.com,t,t,1',
         )
         form.invokeFactory(
             'FormStringField',
-            'CURRENCY ',
+            'CURRENCY',
             fgDefault = 'EUR',
         )
         form.invokeFactory(
@@ -125,12 +125,12 @@ class TestSetup(base.FunctionalTestCase):
         )
         form.invokeFactory(
             'FormStringField',
-            'CANCEL_ADDRESS ',
+            'CANCEL_ADDRESS',
             fgDefault = 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled',
         )
         form.invokeFactory(
             'FormStringField',
-            'PENDING_ADDRESS ',
+            'PENDING_ADDRESS',
             fgDefault = '',
         )
         form.invokeFactory(
@@ -150,7 +150,7 @@ class TestSetup(base.FunctionalTestCase):
         )
         form.invokeFactory(
             'FormStringField',
-            'PRESELECTED_METHOD ',
+            'PRESELECTED_METHOD',
             fgDefault = '',
         )
         form.invokeFactory(
@@ -160,7 +160,7 @@ class TestSetup(base.FunctionalTestCase):
         )
         form.invokeFactory(
             'FormStringField',
-            'VISIBLE_METHODS ',
+            'VISIBLE_METHODS',
             fgDefault = '',
         )
         form.invokeFactory(
