@@ -19,14 +19,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
-
-<!--  <genericsetup:registerProfile-->
-<!--    name="uninstall"-->
-<!--    title="Uninstall Profile for collective.pfg.payment"-->
-<!--    directory="profiles/uninstall"-->
-<!--    description="Removes collective.pfg.payment"-->
-<!--    provides="Products.GenericSetup.interfaces.EXTENSION"-->
-<!--    for="Products.CMFPlone.interfaces.IPloneSiteRoot"-->
-<!--    />-->
+  <include file="upgrades.zcml"/>
 
 </configure>

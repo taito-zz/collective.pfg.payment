@@ -47,13 +47,16 @@ class Miscellaneous(BrowserView):
     def make_order_number_unaware(self):
         context = aq_inner(self.context)
         noLongerProvides(context, IOrderNumberAware)
-#        if IAnnotations(context).get('collective.pfg.payment') is not None:
         del IAnnotations(context)['collective.pfg.payment']
         return self.request.response.redirect(context.absolute_url())
 
     def is_order_number_aware(self):
         context = aq_inner(self.context)
         return IOrderNumberAware.providedBy(context) and IPloneFormGenForm.providedBy(context)
+
+    def not_order_number_aware(self):
+        context = aq_inner(self.context)
+        return not IOrderNumberAware.providedBy(context) and IPloneFormGenForm.providedBy(context)
 
     def number(self):
         context = aq_inner(self.context)

@@ -1,0 +1,16 @@
+<configure
+  i18n_domain="collective.pfg.payment"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns="http://namespaces.zope.org/zope">
+
+  <genericsetup:upgradeStep
+    description=""
+    destination="1001"
+    handler="collective.pfg.payment.upgrades.upgrade_1000_to_1001"
+    profile="collective.pfg.payment:default"
+    sortkey="1"
+    source="1000"
+    title="Reimport"
+    />
+
+</configure>

@@ -58,21 +58,20 @@
       />
 
   <browser:page
+      name="not-order-number-aware"
+      for="*"
+      class=".miscellaneous.Miscellaneous"
+      permission="zope2.View"
+      attribute="not_order_number_aware"
+      />
+
+  <browser:page
       name="number"
       for="*"
       class=".miscellaneous.Miscellaneous"
       permission="zope2.View"
       attribute="number"
       />
-
-
-<!--  <browser:page-->
-<!--      name="fields-to-session"-->
-<!--      for="*"-->
-<!--      class=".miscellaneous.Miscellaneous"-->
-<!--      permission="zope2.View"-->
-<!--      attribute="fields_to_session"-->
-<!--      />-->
 
   <!-- For Testing -->
   <browser:page

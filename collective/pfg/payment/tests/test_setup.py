@@ -1,22 +1,15 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
 from Products.CMFCore.utils import getToolByName
 from collective.pfg.payment.tests.base import TestCase
+
+import unittest
 
 
 class TestSetup(TestCase):
 
     def afterSetUp(self):
-#        self.catalog = getToolByName(self.portal, 'portal_catalog')
-#        self.wftool = getToolByName(self.portal, 'portal_workflow')
         self.controlpanel = getToolByName(self.portal, 'portal_controlpanel')
         self.installer = getToolByName(self.portal, 'portal_quickinstaller')
-#        self.skins      = getToolByName(self.portal, 'portal_skins')
         self.properties = getToolByName(self.portal, 'portal_properties')
-#        self.site_properties = getattr(self.properties, 'site_properties')
-#        self.navtree_properties = getattr(self.properties, 'navtree_properties')
         self.ccp = getattr(self.properties, 'collective_pfg_payment_properties')
         self.actions = getToolByName(self.portal, 'portal_actions')
 
@@ -32,13 +25,7 @@ class TestSetup(TestCase):
         self.assertEquals(u'Payment Config', act.title)
         self.assertEquals("collective.pfg.payment", act.appId)
 
-        try:
-            ## Plone4
-            self.assertEquals("string:$portal_url/maintenance_icon.png", act.icon_expr.text)
-        except AttributeError:
-            ## Plone3
-            pass
-
+        self.assertEquals("string:$portal_url/maintenance_icon.png", act.icon_expr.text)
         self.assertEquals("string:${portal_url}/@@payment-config", act.action.text)
 
     ## propertiestool.xml
@@ -61,7 +48,7 @@ class TestSetup(TestCase):
         matc = self.actions.object_buttons.make_order_number_aware
         self.assertEqual('Make Order Number Aware', matc.getProperty('title'))
         self.assertEqual('string:${globals_view/getCurrentObjectUrl}/@@make-order-number-aware', matc.getProperty('url_expr'))
-        self.assertEqual('python: not object.restrictedTraverse("is-order-number-aware")()', matc.getProperty('available_expr'))
+        self.assertEqual('python: object.restrictedTraverse("not-order-number-aware")()', matc.getProperty('available_expr'))
         self.assertEqual(('Modify portal content',), matc.getProperty('permissions'))
         self.assertEqual(True, matc.getProperty('visible'))
 
@@ -80,8 +67,6 @@ class TestSetup(TestCase):
         self.assertEqual('python: object.restrictedTraverse("is-order-number-aware")()', matc.getProperty('available_expr'))
         self.assertEqual(('Modify portal content',), matc.getProperty('permissions'))
         self.assertEqual(True, matc.getProperty('visible'))
-
-
 
     ## Uninstalling
     def test_uninstall(self):
