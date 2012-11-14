@@ -1,0 +1,133 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-11-14 20:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.pfg.payment\n"
+
+#: ./browser/viewlets/payment_properties.pt:4
+msgid "Authentication Code Calculation"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:30
+msgid "Capital"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:31
+msgid "Check this if Authentication Code should be upper cases."
+msgstr ""
+
+#: ./browser/viewlets/local_payment.pt:5
+msgid "Check this if you use local payment configuration."
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:10
+msgid "Edit Order Number"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:17
+msgid "Field name (id) comes here line by line with the appropriate order."
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:16
+msgid "Fields"
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:34
+msgid "Give digits for random numbering."
+msgstr ""
+
+#: ./browser/templates/payment_config.pt:10
+msgid "Global Payment Config"
+msgstr ""
+
+#: ./browser/templates/payment_config.pt:12
+msgid "Here you can configure the payment processor globally."
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:24
+msgid "If separator is used between fields."
+msgstr ""
+
+#: ./browser/templates/payment_config.pt:15
+msgid "If you need to configure locally, set those values below in Form Folder."
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:50
+msgid "Local Payment Config"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:9
+msgid "MAC Code"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:10
+msgid "MAC Code provided by payment provider."
+msgstr ""
+
+#: ./profiles/default/actions.xml
+msgid "Make Order Number Aware"
+msgstr ""
+
+#: ./profiles/default/actions.xml
+msgid "Make Order Number Unaware"
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:20
+msgid "Next Number"
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:13
+msgid "Numbering Type"
+msgstr ""
+
+#: ./profiles/default/controlpanel.xml
+msgid "Payment Config"
+msgstr ""
+
+#: ./browser/template.py:94
+msgid "Please input integer number for the incremental number."
+msgstr ""
+
+#: ./browser/template.py:102
+msgid "Please input integer number for the randome digits."
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:33
+msgid "Random Digits"
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:14
+msgid "Select the numbering type."
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:23
+msgid "Separator"
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:21
+msgid "This number is used only when you prefer to use incremental numbers. Keep this field emply if you want to use random numbers."
+msgstr ""
+
+#: ./browser/templates/edit_order_number.pt:44
+#: ./browser/viewlets/local_payment.pt:6
+#: ./browser/viewlets/payment_properties.pt:36
+msgid "Update"
+msgstr ""
+
+#: ./browser/viewlets/payment_properties.pt:5
+msgid "Variables below will be used to calculate authentication code."
+msgstr ""
+
