@@ -1,15 +1,10 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-import doctest
-
-from Testing import ZopeTestCase as ztc
-
 from Products.CMFCore.utils import getToolByName
-
-from collective.pfg.payment.tests import base
+from Testing import ZopeTestCase as ztc
 from collective.pfg.payment.interfaces import IProperties
+from collective.pfg.payment.tests import base
+
+import doctest
+import unittest
 
 
 class TestSetup(base.FunctionalTestCase):
@@ -64,87 +59,87 @@ class TestSetup(base.FunctionalTestCase):
         form.invokeFactory(
             'FormStringField',
             'MERCHANT_ID',
-            fgDefault = '13466',
+            fgDefault='13466',
         )
         form.invokeFactory(
             'FormStringField',
             'AMOUNT',
-            fgDefault = '1',
+            fgDefault='1',
         )
         form.invokeFactory(
             'FormStringField',
             'ORDER_NUMBER',
-            fgDefault = '1',
+            fgDefault='1',
         )
         form.invokeFactory(
             'FormStringField',
             'REFERENCE_NUMBER',
-            fgDefault = '',
+            fgDefault='',
         )
         form.invokeFactory(
             'FormStringField',
             'ORDER_DESCRIPTION ',
-            fgDefault = 'taito.horiuchi@gmail.com,t,t,1',
+            fgDefault='taito.horiuchi@gmail.com,t,t,1',
         )
         form.invokeFactory(
             'FormStringField',
             'CURRENCY ',
-            fgDefault = 'EUR',
+            fgDefault='EUR',
         )
         form.invokeFactory(
             'FormStringField',
             'RETURN_ADDRESS',
-            fgDefault = 'http://localhost:8080/Plone/form-folder/@@verkkomaksut-success',
+            fgDefault='http://localhost:8080/Plone/form-folder/@@verkkomaksut-success',
         )
         form.invokeFactory(
             'FormStringField',
             'CANCEL_ADDRESS ',
-            fgDefault = 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled',
+            fgDefault='http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-canceled',
         )
         form.invokeFactory(
             'FormStringField',
             'PENDING_ADDRESS ',
-            fgDefault = '',
+            fgDefault='',
         )
         form.invokeFactory(
             'FormStringField',
             'NOTIFY_ADDRESS',
-            fgDefault = 'http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify',
+            fgDefault='http://localhost:8080/Plone/form-folder/verkkomakust/@@verkkomaksut-notify',
         )
         form.invokeFactory(
             'FormStringField',
             'TYPE',
-            fgDefault = 'S1',
+            fgDefault='S1',
         )
         form.invokeFactory(
             'FormStringField',
             'CULTURE',
-            fgDefault = 'fi_FI',
+            fgDefault='fi_FI',
         )
         form.invokeFactory(
             'FormStringField',
             'PRESELECTED_METHOD ',
-            fgDefault = '',
+            fgDefault='',
         )
         form.invokeFactory(
             'FormStringField',
             'MODE',
-            fgDefault = '1',
+            fgDefault='1',
         )
         form.invokeFactory(
             'FormStringField',
             'VISIBLE_METHODS ',
-            fgDefault = '',
+            fgDefault='',
         )
         form.invokeFactory(
             'FormStringField',
             'GROUP',
-            fgDefault = '',
+            fgDefault='',
         )
         form.invokeFactory(
             'FormStringField',
             'AUTHCODE',
-            fgTDefault = 'python:here.restrictedTraverse("auth-code")',
+            fgTDefault='python:here.restrictedTraverse("auth-code")',
         )
 
 
@@ -155,9 +150,4 @@ def test_suite():
             'tests/functional/pfg.txt',
             package='collective.pfg.payment',
             test_class=TestSetup,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
-
-            ])
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS), ])

@@ -1,17 +1,15 @@
 from Acquisition import aq_inner, aq_parent
-from zope.annotation import IAnnotations
-from zope.component import getUtility
-from zope.interface import alsoProvides, noLongerProvides
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.PloneFormGen.interfaces import IPloneFormGenForm
 from collective.pfg.payment.content.number import Numbers
 from collective.pfg.payment.interfaces import IAuthCode
-from collective.pfg.payment.interfaces import (
-    IOrderNumberAware,
-    IProperties,
-    IRandomDigits,
-)
+from collective.pfg.payment.interfaces import IOrderNumberAware
+from collective.pfg.payment.interfaces import IProperties
+from collective.pfg.payment.interfaces import IRandomDigits
+from zope.annotation import IAnnotations
+from zope.component import getUtility
+from zope.interface import alsoProvides, noLongerProvides
 
 
 class Miscellaneous(BrowserView):

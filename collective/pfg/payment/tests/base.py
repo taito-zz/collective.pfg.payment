@@ -1,11 +1,8 @@
-try:
-    from Zope2.App import zcml
-except ImportError:
-    from Products.Five import zcml
 from Products.Five import fiveconfigure
-from Testing import ZopeTestCase as ztc
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
+from Testing import ZopeTestCase as ztc
+from Zope2.App import zcml
 
 
 @onsetup

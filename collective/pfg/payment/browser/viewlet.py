@@ -1,14 +1,12 @@
+from Acquisition import aq_inner
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.PloneFormGen.interfaces.form import IPloneFormGenForm
+from collective.pfg.payment.interfaces import IProperties
+from plone.app.layout.viewlets.common import ViewletBase
 from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
-from Acquisition import aq_inner
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.layout.viewlets.common import ViewletBase
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.PloneFormGen.interfaces.form import IPloneFormGenForm
-from collective.pfg.payment.interfaces import (
-    IProperties,
-)
 
 
 class PaymentViewletBase(ViewletBase):
@@ -16,8 +14,7 @@ class PaymentViewletBase(ViewletBase):
     @property
     def current_url(self):
         """Returns current url"""
-        context_state = getMultiAdapter((self.context, self.request),
-                                            name=u'plone_context_state')
+        context_state = getMultiAdapter((self.context, self.request), name=u'plone_context_state')
         return context_state.current_page_url()
 
 
@@ -50,7 +47,6 @@ class PaymentConfigPropertiesViewlet(PaymentViewletBase):
         if ISiteRoot.providedBy(context):
             properties = getToolByName(context, 'portal_properties')
             prop = getattr(properties, 'collective_pfg_payment_properties')
-#            return IProperties(prop)
         if IPloneFormGenForm.providedBy(context):
             prop = IAnnotations(context)['collective.pfg.payment']
         return IProperties(prop)
@@ -68,13 +64,14 @@ class PaymentConfigPropertiesViewlet(PaymentViewletBase):
     def capital_field(self):
         return self.payment_properties.boolean_field('capital')
 
+
 class LocalPaymentViewlet(PaymentViewletBase):
 
     index = render = ViewPageTemplateFile("viewlets/local_payment.pt")
 
     def update(self):
         form = self.request.form
-        if form.get("form.button.UseLocalPayment" ,None) is not None:
+        if form.get("form.button.UseLocalPayment") is not None:
             res = form.get("local_payment")
             numbers = IAnnotations(self.context)['collective.pfg.payment']
             if res is True or res == 'on':
@@ -92,14 +89,3 @@ class LocalPaymentViewlet(PaymentViewletBase):
             html = '<input type="checkbox" id="local_payment"\
                 name="local_payment" value="on" />'
         return html
-
-#class LocalPaymentConfigPropertiesViewlet(PaymentConfigPropertiesViewlet):
-#    """Properties Viewlet for Local Payment Config."""
-
-#    @property
-#    def payment_properties(self):
-#        context = aq_inner(self.context)
-#        return IAnnotations(context)['collective.pfg.payment']
-#        properties = getToolByName(context, 'portal_properties')
-#        prop = getattr(properties, 'collective_pfg_payment_properties')
-#        return IProperties(prop)

@@ -1,18 +1,14 @@
 from Acquisition import aq_inner, aq_parent
-
-from zope.annotation import IAnnotations
-from zope.component import getMultiAdapter, getUtility
-
+from Products.CMFCore.Expression import getExprContext
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_hasattr
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.Expression import getExprContext
-from Products.CMFPlone.utils import safe_hasattr
 from Products.statusmessages.interfaces import IStatusMessage
-
 from collective.pfg.payment import PaymentMessageFactory as _
 from collective.pfg.payment.interfaces import IRegularExpression
+from zope.annotation import IAnnotations
+from zope.component import getMultiAdapter, getUtility
 
 
 class PaymentConfigView(BrowserView):
@@ -49,8 +45,7 @@ class PaymentSucceededView(BrowserView):
                 else:
                     # Now, see if we should execute it.
                     # Check to see if execCondition exists and has contents
-                    if safe_hasattr(actionAdapter, 'execCondition') and \
-                      len(actionAdapter.getRawExecCondition()):
+                    if safe_hasattr(actionAdapter, 'execCondition') and len(actionAdapter.getRawExecCondition()):
                         # evaluate the execCondition.
                         # create a context for expression evaluation
                         context = getExprContext(parent, actionAdapter)
@@ -60,24 +55,19 @@ class PaymentSucceededView(BrowserView):
                         doit = True
 
                     if doit:
-                        import pdb; pdb.set_trace()
                         names = items.keys()
                         fields = [parent[name] for name in names]
                         result = actionAdapter.onSuccess(fields, REQUEST=self.request)
-                        if type(result) is type({}) and len(result):
+                        if isinstance(result, dict) and len(result):
                             # return the dict, which hopefully uses
                             # field ids or FORM_ERROR_MARKER for keys
                             return result
-
-
-
-
-
 
         self.items = context.displayInputs(self.request)
         if session.get('collective.pfg.payment.number'):
             del session['collective.pfg.payment.number']
         return self.template()
+
 
 class EditOrderNumberView(BrowserView):
 
@@ -115,8 +105,7 @@ class EditOrderNumberView(BrowserView):
 
     def current_url(self):
         """Returns current url"""
-        context_state = getMultiAdapter((self.context, self.request),
-                                            name=u'plone_context_state')
+        context_state = getMultiAdapter((self.context, self.request), name=u'plone_context_state')
         return context_state.current_page_url()
 
     def select_numbering_type(self):

@@ -1,27 +1,20 @@
-import re
-try:
-    import hashlib
-except ImportError:
-    import md5
+from collective.pfg.payment.error import InfiniteLoopError
+from collective.pfg.payment.interfaces import IAuthCode
+from collective.pfg.payment.interfaces import IRandomDigits
+from collective.pfg.payment.interfaces import IRegularExpression
 from random import choice
 from string import digits
 from zope.interface import implements
-from collective.pfg.payment.error import InfiniteLoopError
-from collective.pfg.payment.interfaces import (
-    IAuthCode,
-    IRandomDigits,
-    IRegularExpression,
-)
+
+import hashlib
+import re
 
 
 class AuthCode(object):
     implements(IAuthCode)
 
     def __call__(self, keys=None, code='', separator='', capital=False):
-        try:
-            m = hashlib.md5()
-        except NameError:
-            m = md5.new()
+        m = hashlib.md5()
         scode = code
         if keys is not None:
             for key in keys:
@@ -31,6 +24,7 @@ class AuthCode(object):
         if capital is True:
             return hexdigest.upper()
         return hexdigest
+
 
 class RandomDigits(object):
     implements(IRandomDigits)
@@ -53,6 +47,7 @@ class RandomDigits(object):
             digits = self.random_number(number)
         else:
             return digits
+
 
 class RegularExpression(object):
 
