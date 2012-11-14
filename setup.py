@@ -13,7 +13,7 @@ long_description = (
 
 setup(
     name='collective.pfg.payment',
-    version='0.3.2',
+    version='0.4',
     description="Extends PloneFormGen to payment form.",
     long_description=long_description,
     # Get more strings from
