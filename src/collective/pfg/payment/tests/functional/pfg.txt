@@ -1,0 +1,34 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+    >>> browser.open('/form')
+    >>> '91A9848AC8BCDF6D5A8EBDB5A041B00E' in browser.contents
+    True
+
+Change some properties in Payment Config::
+
+    >>> browser.getLink('Site Setup').click()
+    >>> browser.getLink('Payment Config').click()
+    >>> browser.getControl(name="mac").value = 'ABCDEFG'
+    >>> browser.getControl(name="form.button.UpdatePaymentProperties").click()
+
+Go to Form Folder and give local pyament config::
+
+    >>> browser.open('/form')
+    >>> '4D3BA5AFD4907541E4E668E9FA6C3324' in browser.contents
+    True
+    >>> browser.getLink('Make Order Number Aware').click()
+    >>> browser.getControl(name="local_payment").value = True
+    >>> browser.getControl(name="form.button.UseLocalPayment").click()
+    >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
+    >>> browser.getControl(name="fields").value = 'MERCHANT_ID\r\nAMOUNT\r\nORDER_NUMBER\r\nREFERENCE_NUMBER\r\nORDER_DESCRIPTION\r\nCURRENCY\r\nRETURN_ADDRESS\r\nCANCEL_ADDRESS\r\nPENDING_ADDRESS\r\nNOTIFY_ADDRESS\r\nTYPE\r\nCULTURE\r\nPRESELECTED_METHOD\r\nMODE\r\nVISIBLE_METHODS\r\nGROUP'
+    >>> browser.getControl(name="separator").value = '|'
+    >>> browser.getControl(name="capital").value = True
+    >>> browser.getControl(name="form.button.UpdatePaymentProperties").click()
+
+Check Form Folder that the previous AUTHCODE is back::
+
+    >>> browser.open('/form')
+    >>> '91A9848AC8BCDF6D5A8EBDB5A041B00E' in browser.contents
+    True

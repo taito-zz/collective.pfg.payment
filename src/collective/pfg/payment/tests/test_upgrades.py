@@ -1,8 +1,11 @@
 from Products.CMFCore.utils import getToolByName
-from collective.pfg.payment.tests.base import TestCase
+from collective.pfg.payment.tests.base import IntegrationTestCase
 
 
-class TestSetup(TestCase):
+class TestSetup(IntegrationTestCase):
+
+    def setUp(self):
+        self.portal = self.layer['portal']
 
     def test_upgrade_1000_to_1001(self):
         actions = getToolByName(self.portal, 'portal_actions')

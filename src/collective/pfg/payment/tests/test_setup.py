@@ -1,12 +1,13 @@
 from Products.CMFCore.utils import getToolByName
-from collective.pfg.payment.tests.base import TestCase
+from collective.pfg.payment.tests.base import IntegrationTestCase
 
 import unittest
 
 
-class TestSetup(TestCase):
+class TestSetup(IntegrationTestCase):
 
-    def afterSetUp(self):
+    def setUp(self):
+        self.portal = self.layer['portal']
         self.controlpanel = getToolByName(self.portal, 'portal_controlpanel')
         self.installer = getToolByName(self.portal, 'portal_quickinstaller')
         self.properties = getToolByName(self.portal, 'portal_properties')

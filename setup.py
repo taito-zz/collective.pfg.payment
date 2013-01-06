@@ -16,8 +16,6 @@ setup(
     version='0.4',
     description="Extends PloneFormGen to payment form.",
     long_description=long_description,
-    # Get more strings from
-    # http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 4.2",
@@ -29,13 +27,14 @@ setup(
     author_email='taito.horiuchi@gmail.com',
     url='https://github.com/taito/collective.pfg.payment',
     license='BSD',
-    packages=find_packages(exclude=['ez_setup']),
+    packages=find_packages('src', exclude=['ez_setup']),
+    package_dir={'': 'src'},
     namespace_packages=['collective', 'collective.pfg'],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Plone>=4.2',
         'Products.PloneFormGen',
+        'hexagonit.testing',
         'setuptools'],
     entry_points="""
     # -*- Entry points: -*-

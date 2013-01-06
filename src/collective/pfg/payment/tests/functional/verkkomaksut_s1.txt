@@ -1,0 +1,79 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Check the amount of message::
+
+    >>> len(mailhost.messages)
+    0
+
+    >>> browser.open('/form')
+    >>> '91A9848AC8BCDF6D5A8EBDB5A041B00E' in browser.contents
+    True
+
+Start from Start Form::
+
+    >>> browser.open('/start_form')
+    >>> browser.getControl(name="replyto").value = "my@email.com"
+    >>> browser.getControl(name="topic").value = "Test Donation"
+    >>> browser.getControl(name="comments").value = "Test Comments."
+    >>> browser.getControl(name="AMOUNT").value = "5.00"
+    >>> browser.getControl(name="form_submit").click()
+    >>> 'value="5.00"' in browser.contents
+    True
+    >>> browser.getControl(name="form_submit").click()
+    >>> 'Thank You' in browser.contents
+    True
+    >>> 'Thanks for your input.' in browser.contents
+    True
+
+    >>> len(mailhost.messages)
+    1
+    >>> msg = mailhost.messages[-1]
+    >>> prink(msg)
+    Content-Type: text/html; charset="utf-8"
+    MIME-Version: 1.0
+    Content-Transfer-Encoding: quoted-printable
+    To: <info@portal.com>
+    From:
+    Subject: =?utf-8?q?Form_Submission?=
+    X-HTTP_X_FORWARDED_FOR:
+    X-REMOTE_ADDR:
+    X-PATH_INFO: /plone/final_form/thank-you/@@payment-succeeded
+    ...
+
+    >>> browser.open('/form')
+    >>> browser.getLink('Make Order Number Aware').click()
+    >>> browser.getControl(name="numbering_type").value = ['Incremental']
+    >>> browser.getControl(name="next_incremental_number").value = '1'
+    >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+    >>> browser.getLink('View').click()
+
+    >>> 'value="1"' in browser.contents
+    True
+    >>> 'value="2"' in browser.contents
+    False
+    >>> browser.getControl(name="form_submit").click()
+
+    >>> len(mailhost.messages)
+    2
+
+    >>> browser.open('/form')
+    >>> 'value="2"' in browser.contents
+    True
+
+Add AMOUNT field to final_form
+-------------------------------
+    >>> portal.final_form.invokeFactory('FormStringField', 'AMOUNT', title='AMOUNT')
+    'AMOUNT'
+    >>> browser.open('/start_form')
+    >>> browser.getControl(name="replyto").value = "my@email.com"
+    >>> browser.getControl(name="topic").value = "Test Donation"
+    >>> browser.getControl(name="comments").value = "Test Comments."
+    >>> browser.getControl(name="AMOUNT").value = "5.00"
+    >>> browser.getControl(name="form_submit").click()
+    >>> browser.getControl(name="form_submit").click()
+
+    >>> len(mailhost.messages)
+    3

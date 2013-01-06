@@ -1,0 +1,141 @@
+Log in as Manager::
+
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Go to Site Setup and to Payment Config::
+
+    >>> browser.getLink('Site Setup').click()
+    >>> browser.getLink('Payment Config').click()
+
+    >>> 'name="local_payment"' in browser.contents
+    False
+    >>> 'name="capital" value="on" checked="checked"' in browser.contents
+    True
+    >>> browser.getControl(name="mac").value = 'ABCDEFG'
+    >>> browser.getControl(name="fields").value = 'FIELD01\r\nFIELD02\r\nFIELD03'
+    >>> browser.getControl(name="separator").value = ','
+    >>> browser.getControl(name="capital").value = False
+    >>> browser.getControl(name="form.button.UpdatePaymentProperties").click()
+
+    >>> 'value="ABCDEFG"' in browser.contents
+    True
+    >>> 'FIELD01\r\nFIELD02\r\nFIELD03' in browser.contents
+    True
+    >>> 'value=","' in browser.contents
+    True
+    >>> 'name="capital" value="on" checked="checked"' in browser.contents
+    False
+
+    >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
+    >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
+    >>> browser.getControl(name="separator").value = '|'
+    >>> browser.getControl(name="capital").value = True
+    >>> browser.getControl(name="form.button.UpdatePaymentProperties").click()
+
+    >>> 'value="6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ"' in browser.contents
+    True
+    >>> 'field01\r\nfield02\r\n' in browser.contents
+    True
+    >>> 'value="|"' in browser.contents
+    True
+    >>> 'value="on" checked="checked"' in browser.contents
+    True
+
+Go To FormFolder and see if there are object_buttons::
+
+    >>> browser.open('/form')
+
+    >>> 'Make Order Number Aware' in browser.contents
+    True
+    >>> 'Make Order Number Unaware' in browser.contents
+    False
+
+    >>> browser.getLink('Make Order Number Aware').click()
+
+    >>> browser.url
+    'http://nohost/plone/form/@@edit-order-number'
+    >>> 'value="Incremental" selected="selected"' in browser.contents
+    True
+    >>> 'value="Random" selected="selected"' in browser.contents
+    False
+    >>> 'value="1"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    True
+    >>> browser.getControl(name="next_incremental_number").value = '1000'
+    >>> browser.getControl(name="random_number_digits").value = ''
+
+   >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+    >>> 'value="Incremental" selected="selected"' in browser.contents
+    True
+    >>> 'value="Random" selected="selected"' in browser.contents
+    False
+    >>> 'value="1"' in browser.contents
+    False
+    >>> 'value="1000"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    True
+
+    >>> browser.getControl(name="numbering_type").value = ['Random']
+    >>> browser.getControl(name="random_number_digits").value = '10'
+
+   >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+    >>> 'value="Random" selected="selected"' in browser.contents
+    True
+    >>> 'value="1"' in browser.contents
+    False
+    >>> 'value="1000"' in browser.contents
+    True
+    >>> 'value="5"' in browser.contents
+    False
+    >>> 'value="10"' in browser.contents
+    True
+
+    >>> topic = form.topic
+    >>> topic.setFgTDefault('python:here.restrictedTraverse("number")')
+    >>> import transaction
+    >>> transaction.commit()
+
+    >>> browser.getLink('View').click()
+    >>> browser.getLink('Edit Order Number').click()
+    >>> browser.getControl(name="numbering_type").value = ['Incremental']
+    >>> browser.getControl(name="next_incremental_number").value = '1000'
+    >>> browser.getControl(name="form.button.UpdateNumber").click()
+
+    >>> browser.getLink('View').click()
+
+    >>> 'value="1000"' in browser.contents
+    True
+
+    >>> browser.getLink('Edit Order Number').click()
+    >>> 'name="local_payment"' in browser.contents
+    True
+    >>> browser.getControl(name="mac").value = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ'
+    >>> browser.getControl(name="fields").value = 'field01\r\nfield02\r\n'
+    >>> browser.getControl(name="separator").value = '|'
+    >>> browser.getControl(name="capital").value = True
+
+    >>> browser.getControl(name="form.button.UpdatePaymentProperties").click()
+
+    >>> 'value="6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ"' in browser.contents
+    True
+    >>> 'field01\r\nfield02\r\n' in browser.contents
+    True
+    >>> 'value="|"' in browser.contents
+    True
+    >>> 'value="on" checked="checked"' in browser.contents
+    True
+
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    False
+    >>> browser.getControl(name="local_payment").value = True
+    >>> browser.getControl(name="form.button.UseLocalPayment").click()
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    True
+    >>> browser.getControl(name="local_payment").value = False
+    >>> browser.getControl(name="form.button.UseLocalPayment").click()
+    >>> 'name="local_payment" value="on" checked="checked"' in browser.contents
+    False
