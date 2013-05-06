@@ -34,8 +34,8 @@ setup(
     zip_safe=False,
     install_requires=[
         'Products.PloneFormGen',
-        'hexagonit.testing',
         'setuptools'],
+    extras_require={'test': ['hexagonit.testing']},
     entry_points="""
     # -*- Entry points: -*-
 

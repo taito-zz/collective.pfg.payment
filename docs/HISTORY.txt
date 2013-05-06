@@ -1,6 +1,13 @@
 Changelog
 =========
 
+
+0.6 (2013-05-06)
+----------------
+
+- Moved test packages to extras_require. [taito]
+- Tested with Plone-4.3. [taito]
+
 0.5 (2013-01-06)
 ----------------
 
